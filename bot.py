@@ -1,4 +1,5 @@
 import configparser
+import logging
 
 import telebot
 
@@ -10,6 +11,9 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 token = config.get('DEFAULT', 'token')
 bot = telebot.TeleBot(token)
+
+logger = telebot.logger
+telebot.logger.setLevel(logging.INFO)
 
 
 @bot.message_handler(commands=['getChatId'])
@@ -70,4 +74,4 @@ def callback_query_processor(query):
 
 
 if __name__ == '__main__':
-    bot.infinity_polling(True)
+    bot.polling(none_stop=True)

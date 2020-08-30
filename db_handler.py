@@ -33,9 +33,15 @@ class DbHelper:
     def delete_folder_rec(self, folder_id):
 
         self.connect()
-        sql = "DELETE FROM FOLDER \
-               WHERE rowid = ?"
-        self.conn.execute(sql, (folder_id,))
+        delete_files = "DELETE FROM FILE \
+                        WHERE folder_id = ?"
+        delete_child_folders = "DELETE FROM FOLDER \
+                                WHERE parent_fldr_id = ?"
+        delete_folder = "DELETE FROM FOLDER \
+                         WHERE rowid = ?"
+        self.conn.execute(delete_files, (folder_id,))
+        self.conn.execute(delete_child_folders, (folder_id,))
+        self.conn.execute(delete_folder, (folder_id,))
         self.conn.commit()
 
     def insert_file(self, message, folder_id):

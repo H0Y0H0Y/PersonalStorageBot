@@ -22,7 +22,7 @@ def go_up(bot, query, current_folder_id):
 def create_new_folder(bot, query, current_folder_id):
     # create new folder obj
     msg = "Creating a new folder in the directory.\n \
-           Please send me the name of the new folder."
+        Please send me the name of the new folder."
     message = bot.send_message(
         chat_id=query.message.chat.id,
         text=msg,
@@ -102,16 +102,14 @@ def process_uploaded_file(message, folder_id, bot):
     if message.document is None:
         message = bot.send_message(
             chat_id=chat_id,
-            text="Upload a file to this folder.",
-            reply_markup=ForceReply(selective=False)
+            text="I can only accept a file."
         )
-        bot.register_next_step_handler(message, process_uploaded_file,
-                                       folder_id, bot)
 
-    # Add exception handling here
-    db.insert_file(message, folder_id)
+    else:
+        # Add exception handling here
+        db.insert_file(message, folder_id)
 
-    display_folder_contents(bot, chat_id, page=1, folder_id=folder_id)
+        display_folder_contents(bot, chat_id, page=1, folder_id=folder_id)
 
 
 # buttons for objs in folder
