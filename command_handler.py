@@ -1,7 +1,7 @@
-from db_handler import DbHelper
 from BrowseProcessor import BrowseProcessor
+from db_handler import DbHelper
 
-db = DbHelper("directory.db")
+db = DbHelper()
 processor = BrowseProcessor(db)
 
 

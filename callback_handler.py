@@ -1,9 +1,9 @@
 from telebot.types import ForceReply
 
-from db_handler import DbHelper
 from BrowseProcessor import BrowseProcessor
+from db_handler import DbHelper
 
-db = DbHelper("directory.db")
+db = DbHelper()
 processor = BrowseProcessor(db)
 
 
@@ -13,7 +13,7 @@ def go_up(bot, query, current_folder_id):
     chat_id = query.message.chat.id
     message_id = query.message.message_id
     folder_id_of_parent = db.get_parent_of_folder(current_folder_id)
-    folder_id = folder_id_of_parent[0]['PARENT_FLDR_ID']
+    folder_id = folder_id_of_parent[0].PARENT_FLDR_ID
     display_folder_contents(bot, chat_id, page=1,
                             folder_id=folder_id,
                             message_id=message_id)
@@ -21,6 +21,8 @@ def go_up(bot, query, current_folder_id):
 
 def create_new_folder(bot, query, current_folder_id):
     # create new folder obj
+    if current_folder_id == "":
+        current_folder_id = None
     msg = "Creating a new folder in the directory.\n \
         Please send me the name of the new folder."
     message = bot.send_message(
@@ -86,6 +88,8 @@ def display_page_for_delete(bot, chat_id, message_id, *, page, folder_id):
 
 def upload_file(bot, query, current_folder_id):
     # ask for file to upload and link to the current folder
+    if current_folder_id == "":
+        current_folder_id = None
     message = bot.send_message(
         chat_id=query.message.chat.id,
         text="Upload a file to this folder.",
