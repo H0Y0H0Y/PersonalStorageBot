@@ -77,14 +77,14 @@ class BrowseProcessor:
     def _get_folder_nms(self):
         folder_recs = self._get_folder_objs()
         return [
-            "📂" + folder['FOLDER_NM']
+            "📂" + folder.FOLDER_NM
             for folder in folder_recs
         ]
 
     def _get_file_nms(self):
         file_recs = self._get_file_objs()
         return [
-            "📃" + file['FILE_NM']
+            "📃" + file.FILE_NM
             for file in file_recs
         ]
 
@@ -131,16 +131,16 @@ class BrowseProcessor:
 
         folder_recs = self._get_folder_objs()
         folder_objs = [
-            InlineKeyboardButton("📂" + obj['FOLDER_NM'],
-                                 callback_data="fold_" + str(obj['rowid']))
+            InlineKeyboardButton("📂" + obj.FOLDER_NM,
+                                 callback_data="fold_" + str(obj.FOLDER_ID))
             for obj in folder_recs
         ]
 
         file_recs = self._get_file_objs()
         file_objs = [
-            InlineKeyboardButton("📃" + obj['FILE_NM'],
+            InlineKeyboardButton("📃" + obj.FILE_NM,
                                  callback_data="file_" +
-                                 str(obj['MESSAGE_ID']))
+                                 str(obj.MESSAGE_ID))
             for obj in file_recs
         ]
 
@@ -197,9 +197,9 @@ class BrowseProcessor:
 
         folder_recs = self._get_folder_objs()
         folder_objs = [
-            InlineKeyboardButton("❌📂" + obj['FOLDER_NM'],
+            InlineKeyboardButton("❌📂" + obj.FOLDER_NM,
                                  callback_data="delfold_" +
-                                 str(obj['rowid']) +
+                                 str(obj.FOLDER_ID) +
                                  "_" + str(self.page) +
                                  "_" + folder_id)
             for obj in folder_recs
@@ -207,9 +207,9 @@ class BrowseProcessor:
 
         file_recs = self._get_file_objs()
         file_objs = [
-            InlineKeyboardButton("❌📃" + obj['FILE_NM'],
+            InlineKeyboardButton("❌📃" + obj.FILE_NM,
                                  callback_data="delfile_" +
-                                 str(obj['rowid']) +
+                                 str(obj.FILE_ID) +
                                  "_" + str(self.page) +
                                  "_" + folder_id)
             for obj in file_recs
@@ -229,8 +229,8 @@ class BrowseProcessor:
                 break
             else:
                 folder_rec = self.db.get_folder_nm_by_id(folder_id)
-                folder_nm = "/" + folder_rec[0]['FOLDER_NM']
-                folder_id = folder_rec[0]['PARENT_FLDR_ID']
+                folder_nm = "/" + folder_rec[0].FOLDER_NM
+                folder_id = folder_rec[0].PARENT_FLDR_ID
                 directory = folder_nm + directory
 
         return directory
